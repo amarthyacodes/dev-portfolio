@@ -1,25 +1,24 @@
 import PillNav from "./PillNav";
-//import logo from './logo.svg';
+
 function Navbar() {
   return (
     <PillNav
-      //logo={logo}
-      logoAlt="Company"
+      className="fixed top-6 left-1/2 -translate-x-1/2 z-50"
       items={[
-        { label: "Home", href: "/" },
-        { label: "About", href: "/About" },
-        { label: "Projects", href: "/Projects" },
-        { label: "Contact", href: "/Contact" },
+        { label: "Home", href: "#home" },
+        { label: "About", href: "#about" },
+        { label: "Projects", href: "#projects" },
+        { label: "Contact", href: "#contact" },
       ]}
-      activeHref="/"
+      activeHref="#home"
       itemStyle="pill"
       hoverEffect="fill"
       indicator="dot"
-      layout="split"
+      layout="joined"
       surface="glass"
       size="md"
-      bounce={0.3}
-      stretch={0.5}
+      bounce={0.1}
+      stretch={0.1}
       collapse="auto"
       intro
     />
