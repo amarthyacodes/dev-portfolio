@@ -1,13 +1,13 @@
 import GradientWaves from "./GradientWaves";
 import SplitText from "./SplitText";
 
-const handleAnimationComplete = () => {
-  console.log("All letters have animated!");
-};
-
 function Hero() {
   return (
-    <div className="relative h-screen w-full flex items-center justify-center">
+    <section
+      id="home"
+      className="relative flex min-h-screen w-full items-center justify-center overflow-hidden px-5"
+    >
+      {/* Animated background */}
       <div className="absolute inset-0 z-0">
         <GradientWaves
           horizonColor="#5227FF"
@@ -39,10 +39,16 @@ function Hero() {
           paused={false}
         />
       </div>
-      <div className="relative z-10">
+
+      {/* Hero content */}
+      <div className="relative z-10 flex flex-col items-center text-center">
+        <p className="mb-5 text-sm font-medium uppercase tracking-[0.3em] text-violet-300">
+          CSE Student · Developer
+        </p>
+
         <SplitText
           text="Hey, I'm Amarthya."
-          className="text-7xl font-semibold text-center text-white"
+          className="text-5xl font-bold tracking-tight text-white sm:text-6xl md:text-7xl"
           effect="rise"
           splitType="chars"
           delay={50}
@@ -51,22 +57,36 @@ function Hero() {
           trigger="view"
           hoverEffect="lift"
           loop={false}
-          loopDelay={1.5}
           mask={false}
           threshold={0.1}
           rootMargin="-100px"
           textAlign="center"
-          onLetterAnimationComplete={handleAnimationComplete}
         />
-        <p className="mt-4 text-xl font-medium tracking-wide text-white/80 text-center sm:text-2xl">
-          I build things for the web.
-        </p>
-        <p className="mt-5 max-w-xl text-base leading-relaxed text-white/60 text center mx-auto">
-          CSE student exploring frontend, backend, and everything in between. I
-          enjoy turning ideas into functional, user-friendly experiences.
+
+        <div className="mt-4">
+          <SplitText
+            text="I build things for the web."
+            className="text-xl font-medium tracking-wide text-white/80 sm:text-2xl md:text-3xl"
+            effect="rise"
+            splitType="words"
+            delay={70}
+            duration={1}
+            staggerFrom="start"
+            trigger="view"
+            hoverEffect="lift"
+            loop={false}
+            mask={false}
+            threshold={0.1}
+            rootMargin="-100px"
+            textAlign="center"
+          />
+        </div>
+
+        <p className="mt-6 max-w-xl text-base leading-relaxed text-white/60 sm:text-lg">
+          Exploring frontend, backend and everything in between.
         </p>
       </div>
-    </div>
+    </section>
   );
 }
 

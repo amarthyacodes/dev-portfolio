@@ -1,10 +1,57 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
-import "./GradientWaves.css";
+import { useEffect, useMemo, useRef, type CSSProperties } from "react";
 
-const ROOT = "gradient-waves-container";
-const CANVAS = "gradient-waves-canvas";
+export interface GradientWavesProps {
+  horizonColor?: string;
+  waveColor?: string;
+  crestColor?: string;
+  backgroundColor?: string;
+  lightMode?: boolean;
+  speed?: number;
+  amplitude?: number;
+  waveScale?: number;
+  waveRatio?: number;
+  swell?: number;
+  turbulence?: number;
+  tilt?: number;
+  zoom?: number;
+  height?: number;
+  fogDepth?: number;
+  relief?: number;
+  lightAngle?: number;
+  sheen?: number;
+  brightness?: number;
+  opacity?: number;
+  grain?: number;
+  quality?: "low" | "medium" | "high";
+  intro?: boolean;
+  mouseInteraction?: boolean;
+  parallaxStrength?: number;
+  mouseStrength?: number;
+  swellOnClick?: boolean;
+  paused?: boolean;
+  dpr?: number;
+  className?: string;
+  style?: CSSProperties;
+}
+
+type RGB = [number, number, number];
+
+interface Swell {
+  x: number;
+  y: number;
+  at: number;
+}
+
+interface View {
+  zoom: number;
+  tilt: number;
+  height: number;
+}
+
+const ROOT = "relative h-full w-full overflow-hidden";
+const CANVAS = "absolute inset-0 block h-full w-full";
 
 const MAX_SWELLS = 4;
 const SWELL_SECONDS = 3.2;
@@ -12,7 +59,7 @@ const SWELL_GAIN = 2.8;
 const SWELL_WIDTH = 8;
 const INTRO_SECONDS = 2.6;
 const CAMERA_HEIGHT = 30;
-const QUALITY = { low: 56, medium: 84, high: 120 };
+const QUALITY: Record<string, number> = { low: 56, medium: 84, high: 120 };
 
 const VERTEX = `#version 300 es
 in vec2 aPosition;
@@ -171,14 +218,15 @@ void main() {
   }
 }`;
 
-const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(max, Math.max(min, value));
 
-const easeInOut = (t) =>
+const easeInOut = (t: number) =>
   t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
 
-let probe = null;
+let probe: CanvasRenderingContext2D | null = null;
 
-const parseColor = (value, fallback) => {
+const parseColor = (value: string, fallback: RGB | null): RGB | null => {
   if (value === "transparent") return null;
   if (typeof document === "undefined") return fallback;
   if (!probe) probe = document.createElement("canvas").getContext("2d");
@@ -206,7 +254,7 @@ const parseColor = (value, fallback) => {
   ];
 };
 
-const compile = (gl, type, source) => {
+const compile = (gl: WebGL2RenderingContext, type: number, source: string) => {
   const shader = gl.createShader(type);
   if (!shader) return null;
   gl.shaderSource(shader, source);
@@ -219,7 +267,7 @@ const compile = (gl, type, source) => {
   return shader;
 };
 
-const rayAt = (point, aspect, s, look) => {
+const rayAt = (point: number[], aspect: number, s: View, look: number[]) => {
   const uvx = (point[0] - 0.5) * aspect;
   const uvy = point[1] - 0.5;
   const vfov = Math.PI / 2.3 / Math.max(s.zoom, 0.05);
@@ -239,7 +287,7 @@ const rayAt = (point, aspect, s, look) => {
   return dir;
 };
 
-const groundAt = (point, aspect, s, look) => {
+const groundAt = (point: number[], aspect: number, s: View, look: number[]) => {
   const dir = rayAt(point, aspect, s, look);
   if (dir[2] > -0.02) return null;
   const travel = (CAMERA_HEIGHT - s.height) / -dir[2];
@@ -282,18 +330,18 @@ export default function GradientWaves({
   dpr = 2,
   className = "",
   style,
-}) {
-  const containerRef = useRef(null);
+}: GradientWavesProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const horizon = useMemo(
-    () => parseColor(horizonColor, [0.32, 0.15, 1]) ?? [0.32, 0.15, 1],
+    (): RGB => parseColor(horizonColor, [0.32, 0.15, 1]) ?? [0.32, 0.15, 1],
     [horizonColor],
   );
   const wave = useMemo(
-    () => parseColor(waveColor, [1, 0.62, 0.99]) ?? [1, 0.62, 0.99],
+    (): RGB => parseColor(waveColor, [1, 0.62, 0.99]) ?? [1, 0.62, 0.99],
     [waveColor],
   );
   const crest = useMemo(
-    () => parseColor(crestColor, [1, 1, 1]) ?? [1, 1, 1],
+    (): RGB => parseColor(crestColor, [1, 1, 1]) ?? [1, 1, 1],
     [crestColor],
   );
   const paper = useMemo(
@@ -334,7 +382,7 @@ export default function GradientWaves({
   };
   const settingsRef = useRef(settings);
   settingsRef.current = settings;
-  const wakeRef = useRef(null);
+  const wakeRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     wakeRef.current?.();
@@ -408,7 +456,7 @@ export default function GradientWaves({
       "uSwells",
       "uSwellWidth",
     ];
-    const u = {};
+    const u: Record<string, WebGLUniformLocation | null> = {};
     names.forEach((name) => {
       u[name] = gl.getUniformLocation(program, name);
     });
@@ -441,9 +489,9 @@ export default function GradientWaves({
       inside: false,
       look: [0, 0],
       steer: [0, 0],
-      swells: [],
+      swells: [] as Swell[],
       quiet: 0,
-      seen: null,
+      seen: null as typeof settings | null,
     };
 
     const fit = () => {
@@ -466,12 +514,12 @@ export default function GradientWaves({
       wake();
     };
 
-    const introProgress = (s, reduced) => {
+    const introProgress = (s: typeof settings, reduced: boolean) => {
       if (!s.intro || reduced || state.introAt < 0) return 1;
       return clamp((state.clock - state.introAt) / INTRO_SECONDS, 0, 1);
     };
 
-    const render = (reduced) => {
+    const render = (reduced: boolean) => {
       const s = settingsRef.current;
       gl.viewport(0, 0, state.width, state.height);
       gl.uniform2f(u.uResolution, state.width, state.height);
@@ -546,7 +594,7 @@ export default function GradientWaves({
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     };
 
-    const tick = (now) => {
+    const tick = (now: number) => {
       state.raf = 0;
       if (!state.visible || document.hidden) return;
       const s = settingsRef.current;
@@ -603,7 +651,7 @@ export default function GradientWaves({
     };
     wakeRef.current = wake;
 
-    const local = (event) => {
+    const local = (event: PointerEvent) => {
       const rect = container.getBoundingClientRect();
       return {
         x: (event.clientX - rect.left) / Math.max(rect.width, 1),
@@ -616,7 +664,7 @@ export default function GradientWaves({
       };
     };
 
-    const onMove = (event) => {
+    const onMove = (event: PointerEvent) => {
       const point = local(event);
       const was = state.inside;
       state.inside = point.inside;
@@ -629,7 +677,7 @@ export default function GradientWaves({
       wake();
     };
 
-    const onDown = (event) => {
+    const onDown = (event: PointerEvent) => {
       const s = settingsRef.current;
       if (!s.swellOnClick || event.button !== 0 || prefersReduced()) return;
       if (
