@@ -1,6 +1,7 @@
 import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
 import GradientWaves from "./components/GradientWaves";
+import About from "./components/About";
 
 function App() {
   return (
@@ -44,7 +45,9 @@ function App() {
       >
         <Hero />
       </section>
-      <section className="h-70" id="about"></section>
+      <section id="about">
+        <About />
+      </section>
     </>
   );
 }
