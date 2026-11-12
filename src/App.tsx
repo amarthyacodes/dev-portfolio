@@ -2,6 +2,7 @@ import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
 import GradientWaves from "./components/GradientWaves";
 import About from "./components/About";
+import Projects from "./components/Projects";
 
 function App() {
   return (
@@ -37,17 +38,14 @@ function App() {
           paused={false}
         />
       </div>
+
       <Navbar />
-      <section
-        id="home"
-        className="z-10
-        relative  min-h-screen w-full   overflow-hidden px-5"
-      >
-        <Hero />
-      </section>
-      <section id="about">
-        <About />
-      </section>
+
+      <Hero />
+
+      <About />
+
+      <Projects />
     </>
   );
 }

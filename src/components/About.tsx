@@ -1,8 +1,8 @@
 import TechText from "./TechText";
 import { useRef } from "react";
-import VariableProximity from "./VariableProximity";
 import TextType from "./TextType";
 import OptionWheel from "./OptionWheel";
+import ScrollReveal from "./ScrollReveal";
 
 function About() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -10,10 +10,10 @@ function About() {
   return (
     <section
       id="about"
-      className="relative z-10 flex min-h-screen w-full items-center px-6 py-28 sm:px-10 lg:px-20"
+      className="relative z-10 flex min-h-screen w-full items-start px-6 pt-24 pb-12 sm:px-10 lg:px-20"
     >
       <div className="mx-auto w-full max-w-7xl">
-        <div className="mb-16">
+        <div className="mb-8">
           <TechText
             text="A little bit about me."
             fontWeight={600}
@@ -44,35 +44,40 @@ function About() {
           />
         </div>
 
-        <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2 lg:gap-24">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div className="flex flex-col items-start">
-            <p className="mb-6 text-sm font-semibold uppercase tracking-[0.25em] text-violet-300">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-violet-300">
               The person behind the code
             </p>
 
-            <div ref={containerRef} className="relative w-full max-w-xl">
-              <VariableProximity
-                label="I'm Amarthya, a Computer Science student and developer who enjoys turning ideas into things people can actually use. I love exploring web technologies, experimenting with new ideas, and learning by building. When I'm away from the keyboard, I'm probably watching anime, listening to music, or figuring out what to build next. Always curious, always building, and always learning."
-                className="variable-proximity-demo text-lg leading-8 text-white/75 sm:text-xl sm:leading-9"
-                fromFontVariationSettings="'wght' 400, 'opsz' 9"
-                toFontVariationSettings="'wght' 650, 'opsz' 24"
-                containerRef={containerRef}
-                radius={80}
-                falloff="linear"
+            <div ref={containerRef} className="relative w-full max-w-lg">
+              <ScrollReveal
+                highlightColor="#C4B5FD"
+                mode="scrub"
+                splitBy="words"
+                effect="fade"
+                stagger={0.025}
+                duration={0.6}
                 smoothing={0.1}
-                scale={1}
-                lift={0}
-                idleWave={false}
-                fontSize={18}
-              />
+                baseOpacity={0.2}
+                baseRotation={0}
+                baseOffset={0}
+                enableBlur
+                blurStrength={2}
+                textClassName="!text-[16px] sm:!text-[18px] !font-normal !leading-[2] !tracking-normal !text-violet-100/75"
+              >
+                I'm Amarthya, a Computer Science student and developer who
+                enjoys turning ideas into things people can actually use. I love
+                exploring web technologies, experimenting with new ideas, and
+                learning by building. When I'm away from the keyboard, I'm
+                probably watching anime, listening to music, or figuring out
+                what to build next. Always curious, always building, and always
+                learning.
+              </ScrollReveal>
             </div>
           </div>
 
           <div className="flex min-w-0 flex-col items-center text-center">
-            <p className="mb-5 text-sm font-semibold uppercase tracking-[0.25em] text-violet-300">
-              My toolkit
-            </p>
-
             <div className="text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
               <TextType
                 text={["I code with"]}
