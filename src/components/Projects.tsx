@@ -1,6 +1,7 @@
 import TiltedCard, { TiltedCardLayer } from "./TiltedCard";
 import TechText from "./TechText";
 import animeTracker from "../assets/anime-tracker.png";
+import subNest from "../assets/subnest.webp";
 
 function Projects() {
   return (
@@ -124,7 +125,7 @@ function Projects() {
 
                 <div style={{ display: "flex", gap: "22px", marginTop: 4 }}>
                   <a
-                    href="YOUR_GITHUB_URL"
+                    href="https://github.com/amarthyacodes/Anime-tracker-2.0"
                     target="_blank"
                     rel="noreferrer"
                     style={{ color: "#C4B5FD", fontSize: "15px" }}
@@ -133,7 +134,7 @@ function Projects() {
                   </a>
 
                   <a
-                    href="YOUR_LIVE_DEMO_URL"
+                    href="https://anime-tracker-2-0.vercel.app/"
                     target="_blank"
                     rel="noreferrer"
                     style={{ color: "#C4B5FD", fontSize: "15px" }}
@@ -150,9 +151,15 @@ function Projects() {
                   position: "absolute",
                   left: 24,
                   bottom: 20,
-                  color: "#fff",
-                  fontSize: 24,
-                  fontWeight: 700,
+                  color: "#FFFFFF",
+                  fontSize: 35,
+                  fontWeight: 800,
+                  letterSpacing: "-1.5px",
+                  textShadow: `
+        0 2px 4px rgba(0,0,0,0.9),
+        0 4px 14px rgba(0,0,0,0.8),
+        0 0 25px rgba(139,92,246,0.5)
+      `,
                 }}
               >
                 Anime Tracker
@@ -162,7 +169,8 @@ function Projects() {
 
           {/* SubNest */}
           <TiltedCard
-            altText="SubNest subscription management application"
+            imageSrc={subNest}
+            altText="subnest susbcriptions"
             captionText="SubNest"
             containerHeight="420px"
             containerWidth="420px"
@@ -198,9 +206,7 @@ function Projects() {
                   IN DEVELOPMENT
                 </span>
 
-                <h2 style={{ fontSize: "34px", fontWeight: 700 }}>
-                  SubNest<span style={{ color: "#A78BFA" }}>.</span>
-                </h2>
+                <h2 style={{ fontSize: "34px", fontWeight: 700 }}>SubNest</h2>
 
                 <p
                   style={{
@@ -233,8 +239,9 @@ function Projects() {
                           fontSize: "13px",
                           padding: "7px 12px",
                           borderRadius: "20px",
-                          background: "#5227FF33",
-                          border: "1px solid #8B5CF6",
+                          background: "rgba(139,92,246,0.12)",
+                          border: "1px solid rgba(196,181,253,0.35)",
+                          color: "#EDE9FE",
                         }}
                       >
                         {tech}
@@ -250,39 +257,24 @@ function Projects() {
             }
           >
             <TiltedCardLayer depth={30}>
-              <div
+              <h2
                 style={{
                   position: "absolute",
-                  inset: 0,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  padding: 30,
-                  color: "white",
-                  background:
-                    "linear-gradient(145deg, rgba(33,27,53,0.97), rgba(8,11,24,0.98))",
+                  bottom: 20,
+                  left: 24,
+                  fontSize: 35,
+                  fontWeight: 800,
+                  letterSpacing: "-1.5px",
+                  color: "#FFFFFF",
+                  textShadow: `
+        0 2px 4px rgba(0,0,0,0.9),
+        0 4px 14px rgba(0,0,0,0.8),
+        0 0 25px rgba(139,92,246,0.5)
+      `,
                 }}
               >
-                <span
-                  style={{
-                    fontSize: 13,
-                    color: "#C4B5FD",
-                    letterSpacing: 2,
-                  }}
-                >
-                  IN DEVELOPMENT
-                </span>
-
-                <div>
-                  <h2 style={{ fontSize: 48, fontWeight: 700 }}>
-                    SubNest<span style={{ color: "#A78BFA" }}>.</span>
-                  </h2>
-
-                  <p style={{ fontSize: 15, color: "#D1D5DB", marginTop: 10 }}>
-                    Your subscriptions, under control.
-                  </p>
-                </div>
-              </div>
+                SubNest
+              </h2>
             </TiltedCardLayer>
           </TiltedCard>
         </div>

@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import GradientWaves from "./components/GradientWaves";
 import About from "./components/About";
 import Projects from "./components/Projects";
+import Contact from "./components/Contact";
 
 function App() {
   return (
@@ -46,6 +47,8 @@ function App() {
       <About />
 
       <Projects />
+
+      <Contact />
     </>
   );
 }
